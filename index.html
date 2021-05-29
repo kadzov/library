@@ -11,20 +11,17 @@
 </head>
 
 <body>
-  <div id="form">
-    <form action="">
-      <label for="title">Title:</label>
-      <input type="text" id="title" name="title">
-      <label for="author">Author:</label>
-      <input type="text" id="author" name="author">
-      <label for="pages">Pages:</label>
-      <input type="text" id="pages" name="pages">
-      <label for="read">Read:</label>
-      <input type="text" id="read" name="read">
-      <br>
-      <input type="button" value="Submit" onclick="addBookToLibrary()">
-    </form>
-  </div>
+  <form>
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title">
+    <label for="author">Author:</label>
+    <input type="text" id="author" name="author">
+    <label for="pages">Pages:</label>
+    <input type="text" id="pages" name="pages">
+    <label for="read">Read:</label>
+    <input type="text" id="read" name="read">
+    <button type="button" onclick="addBookToLibrary()">Submit</button>
+  </form>
   <div id="list"></div>
 </body>
 

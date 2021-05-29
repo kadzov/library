@@ -9,9 +9,6 @@ function Book(title, author, pages, read) {
 function addBookToLibrary() {
   const data = document.querySelectorAll('[type="text"]')
   myLibrary.push(new Book(...Array.from(data).map(x => x.value)));
-  displayBook()
-}
-function displayBook() {
   const book = document.createElement('div');
   book.textContent = Object.values(myLibrary[0])
   list.appendChild(book)
