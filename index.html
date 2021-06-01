@@ -13,13 +13,13 @@
 <body>
   <form>
     <label for="title">Title:</label>
-    <input type="text" id="title" name="title">
+    <input type="text" id="title" name="title" maxlength="30" value='The Hobbit'>
     <label for="author">Author:</label>
-    <input type="text" id="author" name="author">
+    <input type="text" id="author" name="author" maxlength="30" value='J.R.R. Tolkien'>
     <label for="pages">Pages:</label>
-    <input type="text" id="pages" name="pages">
+    <input type="text" id="pages" name="pages" maxlength="5" value="295 pages">
     <label for="read">Read:</label>
-    <input type="text" id="read" name="read">
+    <input type="text" id="read" name="read" maxlength="30" value="not read yet">
     <button type="button" onclick="addBookToLibrary()">Submit</button>
   </form>
   <div id="list"></div>
