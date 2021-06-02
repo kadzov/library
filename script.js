@@ -7,11 +7,13 @@ window.addEventListener('keydown', e => {
     addBookToLibrary();
   }
 });
-function Book(title, author, pages, read) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.read = read;
+class Book {
+  constructor(title, author, pages, read) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.read = read;
+  }
 }
 function addBookToLibrary() {
   const data = document.querySelectorAll('[type="text"]');
