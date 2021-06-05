@@ -8,13 +8,25 @@ window.addEventListener('keydown', e => {
   }
 });
 class Book {
-  constructor(title, author, pages, read) {
+  constructor(title, author, pages) {
     this.title = title;
     this.author = author;
     this.pages = pages;
-    this.read = read;
+    this.read = this.changeStatus();
+  }
+  changeStatus() {
+    if (!this.read || this.read === 'read') {
+      return this.read = 'not read';
+    }
+    return this.read = 'read';
   }
 }
+const checkbox = document.querySelector('#read');
+checkbox.addEventListener('click', e => {
+  if (e.target.value === 'on') {
+    Book.prototype.changeStatus();
+  }
+});
 function addBookToLibrary() {
   const data = document.querySelectorAll('[type="text"]');
   myLibrary.push(new Book(...Array.from(data).map(i => i.value)));
@@ -27,19 +39,22 @@ function addBookToLibrary() {
     card.innerHTML += `<p>${book[info]}</p>`;
   }
   list.appendChild(card);
-  const x = document.querySelectorAll('.x')[myLibrary.length - 1];
-  x.addEventListener('click', () => {
-    card.remove();
-    myLibrary.splice(myLibrary.indexOf(card), 1);
-  });
   const status = document.querySelectorAll('.status')[myLibrary.length - 1];
+  if (card.lastChild.textContent === 'read') {
+    status.style.color = '#26ff00';
+  }
   status.addEventListener('click', e => {
-    if (getComputedStyle(status).color === 'rgba(255, 255, 255, 0.376)') {
+    if (card.lastChild.textContent === 'not read') {
       e.target.style.color = '#26ff00';
       card.lastChild.textContent = 'read';
     } else {
       e.target.style.color = '#ffffff60';
-      card.lastChild.textContent = 'not read yet';
+      card.lastChild.textContent = 'not read';
     }
+  });
+  const x = document.querySelectorAll('.x')[myLibrary.length - 1];
+  x.addEventListener('click', () => {
+    card.remove();
+    myLibrary.splice(myLibrary.indexOf(card), 1);
   });
 }
