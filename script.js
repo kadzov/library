@@ -1,7 +1,8 @@
+screen.orientation.lock()
 let myLibrary = [];
 const list = document.querySelector('#list');
 const button = document.querySelector('button');
-window.addEventListener('keydown', e => {
+window.addEventListener('propertydown', e => {
   if (e.code === 'Enter') {
     button.blur();
     addBookToLibrary();
@@ -30,6 +31,26 @@ checkbox.addEventListener('click', e => {
 function addBookToLibrary() {
   const data = document.querySelectorAll('[type="text"]');
   myLibrary.push(new Book(...Array.from(data).map(i => i.value)));
+  createCard();
+}
+if (localStorage.length > 0) {
+  for (const property in localStorage) {
+    if (localStorage.hasOwnProperty(property)) {
+      myLibrary.push(new Book(...JSON.parse(localStorage[property])));
+      createCard();
+    }
+  }
+}
+//save read status after reload
+function createCard() {
+  let array = [];
+  for (const object of myLibrary) {
+    for (const property in object) {
+      array.push(object[property]);
+    }
+    localStorage.setItem(myLibrary.indexOf(object), JSON.stringify(array));
+    array = [];
+  }
   const book = myLibrary[myLibrary.length - 1];
   const card = document.createElement('div');
   card.style.position = 'relative';
