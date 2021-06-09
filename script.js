@@ -1,13 +1,15 @@
-screen.orientation.lock()
+//save read status after reload
 let myLibrary = [];
 const list = document.querySelector('#list');
 const button = document.querySelector('button');
+
 window.addEventListener('propertydown', e => {
   if (e.code === 'Enter') {
     button.blur();
     addBookToLibrary();
   }
 });
+
 class Book {
   constructor(title, author, pages) {
     this.title = title;
@@ -22,17 +24,20 @@ class Book {
     return this.read = 'read';
   }
 }
+
 const checkbox = document.querySelector('#read');
 checkbox.addEventListener('click', e => {
   if (e.target.value === 'on') {
     Book.prototype.changeStatus();
   }
 });
+
 function addBookToLibrary() {
   const data = document.querySelectorAll('[type="text"]');
   myLibrary.push(new Book(...Array.from(data).map(i => i.value)));
   createCard();
 }
+
 if (localStorage.length > 0) {
   for (const property in localStorage) {
     if (localStorage.hasOwnProperty(property)) {
@@ -41,8 +46,8 @@ if (localStorage.length > 0) {
     }
   }
 }
-//save read status after reload
-function createCard() {
+
+function updateStorage() {
   let array = [];
   for (const object of myLibrary) {
     for (const property in object) {
@@ -51,6 +56,11 @@ function createCard() {
     localStorage.setItem(myLibrary.indexOf(object), JSON.stringify(array));
     array = [];
   }
+}
+
+function createCard() {
+
+  updateStorage();
   const book = myLibrary[myLibrary.length - 1];
   const card = document.createElement('div');
   card.style.position = 'relative';
@@ -60,6 +70,16 @@ function createCard() {
     card.innerHTML += `<p>${book[info]}</p>`;
   }
   list.appendChild(card);
+
+  const x = document.querySelectorAll('.x')[myLibrary.length - 1];
+  x.addEventListener('click', () => {
+    card.remove();
+    localStorage.removeItem(myLibrary.indexOf(book));
+    myLibrary.splice(myLibrary.indexOf(book), 1);
+    localStorage.clear();
+    updateStorage();
+  });
+
   const status = document.querySelectorAll('.status')[myLibrary.length - 1];
   if (card.lastChild.textContent === 'read') {
     status.style.color = '#26ff00';
@@ -73,9 +93,5 @@ function createCard() {
       card.lastChild.textContent = 'not read';
     }
   });
-  const x = document.querySelectorAll('.x')[myLibrary.length - 1];
-  x.addEventListener('click', () => {
-    card.remove();
-    myLibrary.splice(myLibrary.indexOf(card), 1);
-  });
+
 }
