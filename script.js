@@ -1,4 +1,3 @@
-//save read status after reload
 let myLibrary = [];
 const list = document.querySelector('#list');
 const button = document.querySelector('button');
@@ -11,11 +10,11 @@ window.addEventListener('propertydown', e => {
 });
 
 class Book {
-  constructor(title, author, pages) {
+  constructor(title, author, pages, read) {
     this.title = title;
     this.author = author;
     this.pages = pages;
-    this.read = this.changeStatus();
+    this.read = read ? read : this.changeStatus();
   }
   changeStatus() {
     if (!this.read || this.read === 'read') {
@@ -32,19 +31,18 @@ checkbox.addEventListener('click', e => {
   }
 });
 
+if (localStorage.length > 0) {
+  for (let i = 0; i < localStorage.length; i++) {
+    if (localStorage.hasOwnProperty(i)) {
+      myLibrary.push(new Book(...JSON.parse(localStorage[i])));
+      createCard();
+    }
+  }
+}
 function addBookToLibrary() {
   const data = document.querySelectorAll('[type="text"]');
   myLibrary.push(new Book(...Array.from(data).map(i => i.value)));
   createCard();
-}
-
-if (localStorage.length > 0) {
-  for (const property in localStorage) {
-    if (localStorage.hasOwnProperty(property)) {
-      myLibrary.push(new Book(...JSON.parse(localStorage[property])));
-      createCard();
-    }
-  }
 }
 
 function updateStorage() {
@@ -69,9 +67,9 @@ function createCard() {
   for (const info in book) {
     card.innerHTML += `<p>${book[info]}</p>`;
   }
-  list.appendChild(card);
+  list.insertBefore(card, list.childNodes[0]);
 
-  const x = document.querySelectorAll('.x')[myLibrary.length - 1];
+  const x = document.querySelector('.x');
   x.addEventListener('click', () => {
     card.remove();
     localStorage.removeItem(myLibrary.indexOf(book));
@@ -80,18 +78,34 @@ function createCard() {
     updateStorage();
   });
 
-  const status = document.querySelectorAll('.status')[myLibrary.length - 1];
+  const status = document.querySelector('.status');
   if (card.lastChild.textContent === 'read') {
     status.style.color = '#26ff00';
   }
   status.addEventListener('click', e => {
     if (card.lastChild.textContent === 'not read') {
-      e.target.style.color = '#26ff00';
       card.lastChild.textContent = 'read';
+      e.target.style.color = '#26ff00';
+      myLibrary[myLibrary.indexOf(book)].read = 'read';
+      const newStatus = JSON.parse(localStorage[myLibrary.indexOf(book)]);
+      newStatus[newStatus.length - 1] = 'read';
+      localStorage.removeItem(myLibrary.indexOf(book));
+      localStorage.setItem(myLibrary.indexOf(book), JSON.stringify(newStatus));
+      // card.remove();
+      // createCard();
     } else {
-      e.target.style.color = '#ffffff60';
       card.lastChild.textContent = 'not read';
+      e.target.style.color = '#ffffff60';
+      myLibrary[myLibrary.indexOf(book)].read = 'not read';
+      const newStatus = JSON.parse(localStorage[myLibrary.indexOf(book)]);
+      newStatus[newStatus.length - 1] = 'not read';
+      localStorage.removeItem(myLibrary.indexOf(book));
+      localStorage.setItem(myLibrary.indexOf(book), JSON.stringify(newStatus));
+      // card.remove();
+      // createCard();
     }
   });
 
 }
+//change appendChild on list.insertBefore(card, list.childNodes[0]);
+//read card status from myLibrary
