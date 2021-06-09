@@ -86,26 +86,18 @@ function createCard() {
     if (card.lastChild.textContent === 'not read') {
       card.lastChild.textContent = 'read';
       e.target.style.color = '#26ff00';
-      myLibrary[myLibrary.indexOf(book)].read = 'read';
-      const newStatus = JSON.parse(localStorage[myLibrary.indexOf(book)]);
-      newStatus[newStatus.length - 1] = 'read';
-      localStorage.removeItem(myLibrary.indexOf(book));
-      localStorage.setItem(myLibrary.indexOf(book), JSON.stringify(newStatus));
-      // card.remove();
-      // createCard();
+      updateStatus()
     } else {
       card.lastChild.textContent = 'not read';
       e.target.style.color = '#ffffff60';
-      myLibrary[myLibrary.indexOf(book)].read = 'not read';
-      const newStatus = JSON.parse(localStorage[myLibrary.indexOf(book)]);
-      newStatus[newStatus.length - 1] = 'not read';
-      localStorage.removeItem(myLibrary.indexOf(book));
-      localStorage.setItem(myLibrary.indexOf(book), JSON.stringify(newStatus));
-      // card.remove();
-      // createCard();
+      updateStatus()
     }
   });
+  function updateStatus() {
+    const newStatus = JSON.parse(localStorage[myLibrary.indexOf(book)]);
+    newStatus[newStatus.length - 1] = card.lastChild.textContent
+    localStorage.removeItem(myLibrary.indexOf(book));
+    localStorage.setItem(myLibrary.indexOf(book), JSON.stringify(newStatus));
+  }
 
 }
-//change appendChild on list.insertBefore(card, list.childNodes[0]);
-//read card status from myLibrary
