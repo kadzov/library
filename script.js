@@ -24,12 +24,11 @@ checkbox.addEventListener('click', e => {
   }
 });
 
-if (localStorage) {
-  for (let i = 0; i < localStorage.length; i++) {
-    if (localStorage.hasOwnProperty(i)) {
-      myLibrary.push(new Book(...JSON.parse(localStorage[i])));
-      createCard();
-    }
+if (localStorage.length) {
+  const array = JSON.parse(localStorage.objects);
+  for (let i = 0; i < array.length; i++) {
+    myLibrary.push(new Book(...Object.values(array[i])));
+    createCard();
   }
 }
 function addBookToLibrary() {
@@ -38,20 +37,9 @@ function addBookToLibrary() {
   createCard();
 }
 
-function updateStorage() {
-  let array = [];
-  for (const object of myLibrary) {
-    for (const property in object) {
-      array.push(object[property]);
-    }
-    localStorage.setItem(myLibrary.indexOf(object), JSON.stringify(array));
-    array = [];
-  }
-}
-
 function createCard() {
 
-  updateStorage();
+  localStorage.setItem('objects', JSON.stringify(myLibrary));
   const book = myLibrary[myLibrary.length - 1];
   const card = document.createElement('div');
   card.style.position = 'relative';
@@ -68,7 +56,7 @@ function createCard() {
     localStorage.removeItem(myLibrary.indexOf(book));
     myLibrary.splice(myLibrary.indexOf(book), 1);
     localStorage.clear();
-    updateStorage();
+    localStorage.setItem('objects', JSON.stringify(myLibrary));
   });
 
   const status = document.querySelector('.status');
@@ -79,18 +67,17 @@ function createCard() {
     if (card.lastChild.textContent === 'not read') {
       card.lastChild.textContent = 'read';
       e.target.style.color = '#26ff00';
-      updateStatus()
+      updateStatus();
     } else {
       card.lastChild.textContent = 'not read';
       e.target.style.color = '#ffffff60';
-      updateStatus()
+      updateStatus();
     }
   });
   function updateStatus() {
-    const newStatus = JSON.parse(localStorage[myLibrary.indexOf(book)]);
-    newStatus[newStatus.length - 1] = card.lastChild.textContent
-    localStorage.removeItem(myLibrary.indexOf(book));
-    localStorage.setItem(myLibrary.indexOf(book), JSON.stringify(newStatus));
+    const array = JSON.parse(localStorage.objects);
+    array[myLibrary.indexOf(book)].read = card.lastChild.textContent;
+    localStorage.objects = JSON.stringify(array);
   }
 
 }
