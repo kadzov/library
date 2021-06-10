@@ -2,13 +2,6 @@ let myLibrary = [];
 const list = document.querySelector('#list');
 const button = document.querySelector('button');
 
-window.addEventListener('propertydown', e => {
-  if (e.code === 'Enter') {
-    button.blur();
-    addBookToLibrary();
-  }
-});
-
 class Book {
   constructor(title, author, pages, read) {
     this.title = title;
@@ -31,7 +24,7 @@ checkbox.addEventListener('click', e => {
   }
 });
 
-if (localStorage.length > 0) {
+if (localStorage) {
   for (let i = 0; i < localStorage.length; i++) {
     if (localStorage.hasOwnProperty(i)) {
       myLibrary.push(new Book(...JSON.parse(localStorage[i])));
@@ -101,3 +94,10 @@ function createCard() {
   }
 
 }
+
+window.addEventListener('keydown', e => {
+  if (e.code === 'Enter') {
+    button.blur();
+    addBookToLibrary();
+  }
+});
