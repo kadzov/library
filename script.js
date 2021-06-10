@@ -32,7 +32,7 @@ if (localStorage.length) {
   }
 }
 function addBookToLibrary() {
-  const data = document.querySelectorAll('[type="text"]');
+  const data = document.querySelectorAll('form > input');
   myLibrary.push(new Book(...Array.from(data).map(i => i.value)));
   createCard();
 }
