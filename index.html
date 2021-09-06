@@ -1,31 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" async></script>
+    <title>Document</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-  <script src="script.js" async></script>
-  <title>Document</title>
-</head>
-
-<body>
-  <div id="panel">
-    <form>
-      <label for="title">Title:</label>
-      <input type="text" id="title" maxlength="30" value='The Hobbit' onfocus="this.value=''">
-      <label for="author">Author:</label>
-      <input type="text" id="author" maxlength="30" value='J.R.R. Tolkien' onfocus="this.value=''">
-      <label for="pages">Pages:</label>
-      <input type="text" id="pages" maxlength="5" value="295" onfocus="this.value=''">
-      <label for="read">
-        <input type="checkbox" id="read">Read
-      </label>
-      <button type="button" onclick="addBookToLibrary()">Add</button>
-    </form>
-  </div>
-  <div id="list"></div>
-</body>
-
+  <body>
+    <div id="panel">
+      <form>
+        <label for="title">Title:</label>
+        <input
+          type="text"
+          id="title"
+          maxlength="30"
+          value="The Hobbit"
+          onfocus="this.value=''"
+        />
+        <label for="author">Author:</label>
+        <input
+          type="text"
+          id="author"
+          maxlength="30"
+          value="J.R.R. Tolkien"
+          onfocus="this.value=''"
+        />
+        <label for="pages">Pages:</label>
+        <input
+          type="text"
+          id="pages"
+          maxlength="5"
+          value="295"
+          onfocus="this.value=''"
+        />
+        <label for="read"> <input type="checkbox" id="read" />Read </label>
+        <button type="button" onclick="addBookToLibrary()">Add</button>
+      </form>
+    </div>
+    <div id="list"></div>
+  </body>
 </html>

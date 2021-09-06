@@ -11,14 +11,14 @@ class Book {
   }
   changeStatus() {
     if (!this.read || this.read === 'read') {
-      return this.read = 'not read';
+      return (this.read = 'not read');
     }
-    return this.read = 'read';
+    return (this.read = 'read');
   }
 }
 
 const checkbox = document.querySelector('#read');
-checkbox.addEventListener('click', e => {
+checkbox.addEventListener('click', (e) => {
   if (e.target.value === 'on') {
     Book.prototype.changeStatus();
   }
@@ -33,12 +33,11 @@ if (localStorage.length) {
 }
 function addBookToLibrary() {
   const data = document.querySelectorAll('form > input');
-  myLibrary.push(new Book(...Array.from(data).map(i => i.value)));
+  myLibrary.push(new Book(...Array.from(data).map((i) => i.value)));
   createCard();
 }
 
 function createCard() {
-
   localStorage.setItem('objects', JSON.stringify(myLibrary));
   const book = myLibrary[myLibrary.length - 1];
   const card = document.createElement('div');
@@ -63,7 +62,7 @@ function createCard() {
   if (card.lastChild.textContent === 'read') {
     status.style.color = '#26ff00';
   }
-  status.addEventListener('click', e => {
+  status.addEventListener('click', (e) => {
     if (card.lastChild.textContent === 'not read') {
       card.lastChild.textContent = 'read';
       e.target.style.color = '#26ff00';
@@ -79,10 +78,9 @@ function createCard() {
     array[myLibrary.indexOf(book)].read = card.lastChild.textContent;
     localStorage.objects = JSON.stringify(array);
   }
-
 }
 
-window.addEventListener('keydown', e => {
+window.addEventListener('keydown', (e) => {
   if (e.code === 'Enter') {
     button.blur();
     addBookToLibrary();
